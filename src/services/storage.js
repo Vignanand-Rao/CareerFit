@@ -305,6 +305,15 @@ export function initializeSession(userData, onboardingProfile) {
 }
 
 /**
+ * Sets session to active on login.
+ */
+export function loginUser(email, extra = {}) {
+  const updated = saveUserProfile({ email, ...extra });
+  safeStorageSet(KEYS.ACTIVE_SESSION, { loggedIn: true, userId: updated.id });
+  return updated;
+}
+
+/**
  * Clears active session on logout.
  */
 export function clearSession() {

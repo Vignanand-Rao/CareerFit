@@ -113,7 +113,7 @@ export default function Dashboard({ onLogout, onProfile, user: _userProp, career
     navigateTo("assessments");
   }
 
-  // ── Phase 5: Profile editor state ──────────────────────────────────────────
+  // ----------------------------------------------------------------------------- Phase 5: Profile editor state ──────────────────────────────────────────
   const [profileEdit, setProfileEdit] = useState({
     fullName: activeUser.fullName || "",
     email: activeUser.email || ""
@@ -122,7 +122,10 @@ export default function Dashboard({ onLogout, onProfile, user: _userProp, career
   const [profileSaved, setProfileSaved] = useState(false);
 
   function handleSaveProfile() {
-    saveUserProfile({ fullName: profileEdit.fullName.trim(), email: profileEdit.email.trim() });
+    const nextName = profileEdit.fullName.trim() || activeUser.fullName || "CareerFit Member";
+    const nextEmail = profileEdit.email.trim() || activeUser.email || "";
+    saveUserProfile({ fullName: nextName, email: nextEmail });
+    setProfileEdit({ fullName: nextName, email: nextEmail });
     setRevision((r) => r + 1);
     if (onUpdateDashboard) onUpdateDashboard();
     setProfileSaved(true);
@@ -158,7 +161,7 @@ export default function Dashboard({ onLogout, onProfile, user: _userProp, career
     setRevision((r) => r + 1);
     if (onUpdateDashboard) onUpdateDashboard();
   }
-  // ───────────────────────────────────────────────────────────────────────────
+  // -----------------------------------------------------------------------------
 
   const [assessmentStep, setAssessmentStep] = useState("skills");
   const [selectedSkill, setSelectedSkill] = useState("Python");
@@ -815,7 +818,7 @@ export default function Dashboard({ onLogout, onProfile, user: _userProp, career
                       <div>
                         <strong>{selectedSkill} · {selectedType}</strong>
                         <span>
-                          {questions.length} questions ·{" "}
+                          {questions.length} questions · {" "}
                           {assessmentTypes.find((type) => type.id === selectedType)?.duration} minutes
                         </span>
                       </div>
@@ -1233,7 +1236,7 @@ export default function Dashboard({ onLogout, onProfile, user: _userProp, career
 
               <div className="cf-profile-editor-grid">
 
-                {/* ── Personal Info ───────────────────────────────────────── */}
+                {/* Personal Info */}
                 <div className="cf-profile-section">
                   <h3>Personal Information</h3>
                   <div className="cf-profile-field">
@@ -1264,7 +1267,7 @@ export default function Dashboard({ onLogout, onProfile, user: _userProp, career
                   </div>
                 </div>
 
-                {/* ── Skills Manager ──────────────────────────────────────── */}
+                {/* Skills Manager */}
                 <div className="cf-profile-section">
                   <h3>My Skills</h3>
                   {Object.entries(getDashboardData().user.skills || {}).length === 0 ? (
@@ -1299,7 +1302,7 @@ export default function Dashboard({ onLogout, onProfile, user: _userProp, career
                       value={addingSkill}
                       onChange={(e) => setAddingSkill(e.target.value)}
                     >
-                      <option value="">— Add a skill —</option>
+                      <option value="">+ Add a skill</option>
                       {ALL_SKILLS
                         .filter((s) => !(getDashboardData().user.skills || {})[s])
                         .map((s) => (
@@ -1317,7 +1320,7 @@ export default function Dashboard({ onLogout, onProfile, user: _userProp, career
                   </div>
                 </div>
 
-                {/* ── Target Role ─────────────────────────────────────────── */}
+                {/* Target Role */}
                 <div className="cf-profile-section">
                   <h3>Target Career Role</h3>
                   <div className="cf-profile-role-grid">
@@ -1339,7 +1342,7 @@ export default function Dashboard({ onLogout, onProfile, user: _userProp, career
                   </div>
                 </div>
 
-                {/* ── Logout ──────────────────────────────────────────────── */}
+                {/* Logout */}
                 <div className="cf-profile-section" style={{ display: "flex", alignItems: "center", gap: "16px" }}>
                   <button type="button" className="cf-secondary-button" onClick={handleLogout}>
                     <LogOut size={16} /> Log out

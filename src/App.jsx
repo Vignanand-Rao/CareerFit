@@ -9,7 +9,7 @@ import {
   getUserProfile,
   getCareerGoal,
   initializeSession,
-  saveUserProfile
+  loginUser
 } from "./services/storage.js";
 
 import {
@@ -532,8 +532,9 @@ export default function App() {
   }
 
   function handleLoginSuccess(loginData) {
-    const updated = saveUserProfile({ email: loginData.email });
+    const updated = loginUser(loginData.email);
     setCurrentUser(updated);
+    setCareerGoal(getCareerGoal());
     navigateTo("dashboard");
   }
 
