@@ -1,7 +1,7 @@
 services:
   - type: web
     name: careerfit
-    env: docker
+    runtime: docker
     plan: free
     region: oregon
     dockerfilePath: ./Dockerfile
